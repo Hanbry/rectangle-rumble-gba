@@ -19,21 +19,17 @@ int main(void) {
         ((u16*)VRAM)[i] = backgroundColor;
     }
 
-    m3_plot( 120, 80, RGB8(31, 0, 0) );
-
     int x = 60;
-    int y = 80-5;
+    int y = 80 - 5;
 
     while (1) {
         clear_player();
 
         x += 5;
         if (x > 230) x = 0;
-
         draw_player(x, y);
 
         VBlankIntrWait();
-
     }
 
     return 0;
