@@ -1,5 +1,5 @@
 # rectangle-rumble-gba
-This is an under-development Gameboy Advance game built using DevkitPro.
+This is an under-development Game Boy Advance game built using DevkitPro.
 
 ### Requirements
 1. Game Boy Advance Emulator or actual hardware
