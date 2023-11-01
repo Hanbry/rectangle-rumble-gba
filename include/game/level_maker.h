@@ -1,0 +1,4 @@
+#ifndef LEVELMAKER_H
+#define LEVELMAKER_H
+
+#endif // LEVELMAKER_H

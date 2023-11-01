@@ -48,14 +48,15 @@ LDFLAGS	=	-g $(ARCH) -Wl,-Map,$(notdir $*.map)
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:= -lmm -lgba
- 
+LIBS	:= -lmm -lgba -ltonc
+
  
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
-# include and lib
+# include and lib	
 #---------------------------------------------------------------------------------
-LIBDIRS	:=	$(LIBGBA)
+LIBTONC := /opt/devkitpro/libtonc
+LIBDIRS	:= $(LIBGBA) $(LIBTONC)
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
