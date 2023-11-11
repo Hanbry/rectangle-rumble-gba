@@ -7,6 +7,7 @@
 #include "level_maker.h"
 
 #include "gfx_block.h"
+#include "rectangle_rumble_back.h" 
 
 #define SCREEN_WIDTH  240
 #define SCREEN_HEIGHT 160
@@ -15,10 +16,21 @@ OBJ_ATTR obj_buffer[128];
 OBJ_AFFINE *obj_aff_buffer= (OBJ_AFFINE*)obj_buffer;
 
 int main(void) {
-    REG_DISPCNT = DCNT_OBJ | DCNT_OBJ_1D;
+    REG_DISPCNT = DCNT_OBJ | DCNT_OBJ_1D | DCNT_MODE0 | DCNT_BG0;
 
     memcpy(&tile_mem[4][0], blockTiles, blockTilesLen);
     memcpy(pal_obj_mem, blockPal, blockPalLen);
+
+    // Load palette
+    memcpy(pal_bg_mem, rectangle_rumble_backPal, rectangle_rumble_backPalLen);
+    // Load tiles into CBB 0
+    memcpy(&tile_mem[0][0], rectangle_rumble_backTiles, rectangle_rumble_backTilesLen);
+    // Load map into SBB 30
+    memcpy(&se_mem[30][0], rectangle_rumble_backMap, rectangle_rumble_backMapLen);
+
+    // set up BG0 for a 4bpp 64x32t map, using
+    //   using charblock 0 and screenblock 31
+    REG_BG0CNT = BG_CBB(0) | BG_SBB(30) | BG_8BPP | BG_REG_32x32;
 
     oam_init(obj_buffer, 128);
 
