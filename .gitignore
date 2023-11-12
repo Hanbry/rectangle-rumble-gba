@@ -36,6 +36,8 @@
 build/
 examples/
 dist/
+include/gfx/
+source/gfx/
 
 # Backup Files
 *~
