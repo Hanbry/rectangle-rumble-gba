@@ -26,6 +26,8 @@ SOURCES		:= asm source/game source/gfx resources
 INCLUDES	:= include/game include/gfx resources
 DATA		:= data
 MUSIC		:=
+GFXTARGET	:= source/gfx include/gfx
+
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -63,10 +65,13 @@ LIBDIRS	:= $(LIBGBA) $(LIBTONC)
 # rules for different file extensions
 #---------------------------------------------------------------------------------
 
-
 ifneq ($(BUILDDIR), $(CURDIR))
 #---------------------------------------------------------------------------------
- 
+
+export GFXSRC	:=	$(CURDIR)/source/gfx
+export GFXINC	:=	$(CURDIR)/include/gfx
+export GFXFILES	:=	$(CURDIR)/graphics
+
 export OUTPUT	:=	$(CURDIR)/dist/$(TARGET)
  
 export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
@@ -113,18 +118,28 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
  
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
-.PHONY: $(BUILD) clean
+.PHONY: $(BUILD) clean graphics
  
 #---------------------------------------------------------------------------------
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	@$(MAKE) BUILDDIR=`cd $(BUILD) && pwd` --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
+
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).gba 
+	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).gba
+	@rm -fr $(GFXTARGET)
  
+#---------------------------------------------------------------------------------
+graphics:
+	@echo Converting backgrounds and sprites...
+	@mkdir -p $(GFXSRC) $(GFXINC)
+	@grit $(GFXFILES)/backgrounds/* -gB8 -mRtf -ftc -W2 -mLs
+	@grit $(GFXFILES)/sprites/* -gB8 -ftc -W2
+	@mv $(CURDIR)/*.h $(GFXINC)/
+	@mv $(CURDIR)/*.c $(GFXSRC)/
  
 #---------------------------------------------------------------------------------
 else
