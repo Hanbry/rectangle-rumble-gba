@@ -50,7 +50,7 @@ LDFLAGS	=	-g $(ARCH) -Wl,-Map,$(notdir $*.map)
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:= -lmm -lgba -ltonc
+LIBS	:= -lmm -lgba -ltonc -lm
 
  
 #---------------------------------------------------------------------------------
@@ -136,8 +136,8 @@ clean:
 graphics:
 	@echo Converting backgrounds and sprites...
 	@mkdir -p $(GFXSRC) $(GFXINC)
-	@grit $(GFXFILES)/backgrounds/* -gB8 -mRtf -ftc -W2 -mLs
-	@grit $(GFXFILES)/sprites/* -gB8 -ftc -W2
+	@grit $(GFXFILES)/backgrounds/* -gB4 -pn16 -mRtf -ftc -W2 -mLs
+	@grit $(GFXFILES)/sprites/* -gB4 -pn16 -gTFFFFFF -ftc -W2
 	@mv $(CURDIR)/*.h $(GFXINC)/
 	@mv $(CURDIR)/*.c $(GFXSRC)/
  
